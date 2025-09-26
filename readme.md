@@ -1,6 +1,9 @@
 # Recent Changes
 
-- Added basic files for each model
+- Added details to:
+    - EmployerResponse
+    - InternshipPosition
+    - Shortlist
 
 # Next Tasks:
 
