@@ -6,6 +6,14 @@ from App.models import User
 from App.main import create_app
 from App.controllers import ( create_user, get_all_users_json, get_all_users, initialize )
 
+from App.models.employer import Employer
+from App.models.staff import Staff
+from App.models.student import Student
+from App.models.internshipposition import InternshipPosition
+from App.models.shortlist import Shortlist
+# from App.models.student_shortlist import Student_Shortlist
+from App.models.employerresponse import EmployerResponse
+
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -17,6 +25,54 @@ migrate = get_migrate(app)
 def init():
     initialize()
     print('database intialized')
+
+# List command to list all tables in the database
+@app.cli.command("list", help="Lists all tables in the database")
+def list():
+    employers = Employer.query.all()
+    staff = Staff.query.all()
+    students = Student.query.all()
+    positions = InternshipPosition.query.all()
+    shortlists = Shortlist.query.all()
+    # student_shortlists = Student_Shortlist.query.all()
+    responses = EmployerResponse.query.all()
+    
+    print("")
+    
+    for emp in employers:
+        print(emp.__str__())
+    
+    print("")
+    
+    for sta in staff:
+        print(sta.__str__())
+    
+    print("")
+
+    for stu in students:
+        print(stu.__str__())
+    
+    print("")
+
+    for pos in positions:
+        print(pos.__str__())
+    
+    print("")
+
+    for sho in shortlists:
+        print(sho.__str__())
+    
+    # print("")
+
+    # for ss in student_shortlists:
+    #     print(ss.__str__())
+    
+    print("")
+
+    for res in responses:
+        print(res.__str__())
+    
+    print("")
 
 '''
 User Commands

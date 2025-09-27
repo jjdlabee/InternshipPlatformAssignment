@@ -12,3 +12,6 @@ class Student_Shortlist(db.Model):
     def __init__(self, studentID, shortlistID):
         self.studentID = studentID
         self.shortlistID = shortlistID
+    
+    # def __str__(self):
+    #     return f"Student_Shortlist[studentID={self.studentID}, shortlistID={self.shortlistID}]"

@@ -15,3 +15,6 @@ class Shortlist(db.Model):
 
     def __init__(self, positionID):
         self.positionID = positionID
+    
+    def __str__(self):
+        return f"Shortlist[id={self.id}, positionID={self.positionID}, students={[student.id for student in self.students]}]"

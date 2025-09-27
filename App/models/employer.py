@@ -1,6 +1,7 @@
 from App.database import db
 from .user import User
 from .internshipposition import InternshipPosition
+from .employerresponse import EmployerResponse
 
 class Employer(User):
 
@@ -11,6 +12,9 @@ class Employer(User):
         self.username = username
         self.set_password(password)
         self.companyName = companyName
+    
+    def __str__(self):
+        return f"Employer[id={self.id}, username={self.username}, companyName={self.companyName}]"
 
     def createPosition(self, positionTitle, department, description):
         pos = InternshipPosition(employerID=self.id, positionTitle=positionTitle, department=department, description=description)
@@ -18,5 +22,8 @@ class Employer(User):
         db.session.commit()
         return pos
 
-    def createResponse():
-        pass
+    def createResponse(self, positionID, studentID, message):
+        res = EmployerResponse(employerID=self.id, positionID=positionID, studentID=studentID, message=message)
+        db.session.add(res)
+        db.session.commit()
+        return res

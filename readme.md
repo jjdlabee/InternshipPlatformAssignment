@@ -1,14 +1,12 @@
 # Recent Changes
 
-- Tested the creation of:
-    - Student
-    - Staff
-    - Employer
-    - InternshipPosition
-    - Shortlist
+- Created scenario.py controller to create a scenario where every model has at least one entry with relationships with one another
 
-- Created a student_shortlist bridge table since there is a many-to-many relationship between student and shortlist
+- Implemented a basic 'list' command to list all entries for every table (incomplete)
+    - An error was encountered when trying to import models/student_shortlist.py in wsgi.py
 
 # Next Tasks:
 
-- Finalise attributes and relationships
+- Solve error
+
+- Determine if necessary to define student_shorlist in models/student.py

@@ -25,8 +25,8 @@ class Student(User):
         self.degree = degree
         self.gpa = gpa
 
-    def applyToPosition():
-        pass
+    def __str__(self):
+        return f"Student[id={self.id}, username={self.username}, faculty={self.faculty}, department={self.department}, degree={self.degree}, gpa={self.gpa}]"
 
     def viewShortlist():
         pass
