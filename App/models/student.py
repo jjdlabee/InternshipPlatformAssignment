@@ -3,6 +3,7 @@ from user import User
 
 class Student(User):
 
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     faculty = db.Column(db.String(20, nullable=False))
     department = db.Column(db.String(20, nullable=False))
     degree = db.Column(db.String(20, nullable=False))

@@ -1,9 +1,8 @@
 # Recent Changes
 
-- Added details to:
-    - EmployerResponse
-    - InternshipPosition
-    - Shortlist
+- Tested the creation of:
+    - Student
+    - Staff
 
 # Next Tasks:
 
