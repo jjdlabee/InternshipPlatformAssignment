@@ -2,6 +2,8 @@ from App.database import db
 
 class InternshipPosition(db.Model):
 
+    __tablename__ = 'internshipposition'
+
     id = db.Column(db.Integer, primary_key=True)
     employerID = db.Column(db.Integer, db.ForeignKey('employer.id'), nullable=False)
     positionTitle = db.Column(db.String(20), nullable=False)

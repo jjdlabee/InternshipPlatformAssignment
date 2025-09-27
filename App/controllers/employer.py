@@ -5,7 +5,7 @@ def create_employer(username, password, companyName):
     emp = Employer(username, password, companyName)
     db.session.add(emp)
     db.session.commit()
-    emp.createPosition(1, 'Inventory', 'Data Entry')
+    emp.createPosition("Data Entry Clerk", 'Inventory', 'Enter stock data into system')
     db.session.add(emp)
     db.session.commit()
     return emp

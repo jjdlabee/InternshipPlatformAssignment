@@ -5,5 +5,8 @@ def create_staff(username, password, department):
     sta = Staff(username, password, department)
     db.session.add(sta)
     db.session.commit()
+    sta.createShortlist(1)
+    db.session.add(sta)
+    db.session.commit()
     return sta
     
