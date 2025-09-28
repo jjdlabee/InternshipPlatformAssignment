@@ -1,9 +1,13 @@
 # Recent Changes
 
-- Removed Shortlist and EmployerResponse Tables as they were unecessary (took abstraction too far)
-
-- Student_Position has replaced Student_Shortlist as the bridge table and can be found in models/student.py
+- Added commands for:
+    - Listing all staff
+    - Listing all students
+    - Viewing a student's shortlists
+    - Adding a student to a shortlist
 
 # Next Tasks:
 
-- Create required commands
+- Complete commands
+
+- Associate staff with employer since only staff under employer who created position should be able to add students to the position's shortlist

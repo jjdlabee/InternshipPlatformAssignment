@@ -60,17 +60,6 @@ def list():
     
     print("")
 
-# List shortlists by student ID
-# @app.cli.command("list_shortlists", help="Lists all shortlists for a student by student ID")
-# @click.argument("student_id", default=1)
-# def list_shortlists(student_id):
-#     student = Student.query.filter_by(id=student_id).first()
-#     if student:
-#         print(f"Shortlists for Student ID {student_id}:\n")
-#         for shortlist in student.shortlists:
-#             print(shortlist)
-#     else:
-#         print(f"No student found with ID {student_id}")
 
 '''
 User Commands
@@ -101,6 +90,107 @@ def list_user_command(format):
         print(get_all_users_json())
 
 app.cli.add_command(user_cli) # add the group to the cli
+
+'''
+Staff Commands
+'''
+
+staff_cli = AppGroup('staff', help='Staff object commands')
+
+@staff_cli.command("list", help="Lists all staff in the database")
+def list_staff_command():
+    staff = Staff.query.all()
+    print("")
+    for sta in staff:
+        print(sta)
+    print("")
+
+@staff_cli.command("add-to-shortlist", help="Add a student to a position's shortlist")
+def add_to_shortlist_command():
+    print("\nStaff:\n")
+    staff = Staff.query.all()
+    print("")
+    for sta in staff:
+        print(f'ID: {sta.id} Name: {sta.username}')
+    
+    staff_id = input('\nEnter staff ID: ')
+    print("")
+    staff = Staff.query.filter_by(id=staff_id).first()
+    if not staff:
+        print('Staff not found.')
+        return
+
+    print("\nPositions:\n")
+    positions = InternshipPosition.query.all()
+    for pos in positions:
+        print(f'ID: {pos.id} Title: {pos.positionTitle}')
+    
+    position_id = input('\nEnter position ID: ')
+    position = InternshipPosition.query.filter_by(id=position_id).first()
+    if not position:
+        print('Position not found.')
+        return
+
+    print("\nStudents:\n")
+    students = Student.query.all()
+    for stu in students:
+        print(f'ID: {stu.id} Name: {stu.username}')
+    
+    student_id = input('\nEnter student ID: ')
+    student = Student.query.filter_by(id=student_id).first()
+    if not student:
+        print('Student not found.')
+        return
+
+    sp = Student_Position.query.filter_by(studentID=student_id, positionID=position_id).first()
+    if sp:
+        print('Student is already in the shortlist for this position.')
+        return
+
+    if staff.addToShortlist(position_id, student_id):
+        print(f'Student {student.username} added to shortlist of position {position.positionTitle}.')
+    else:
+        print('Failed to add student to shortlist.')
+
+app.cli.add_command(staff_cli)
+
+'''
+Student Commands
+'''
+
+student_cli = AppGroup('student', help='Student object commands')
+
+@student_cli.command("list", help="Lists all students in the database")
+def list_students_command():
+    students = Student.query.all()
+    print("")
+    for stu in students:
+        print(stu)
+    print("")
+
+@student_cli.command("view-shortlists", help="View shortlists a specified student was added to")
+def view_shortlists_command():
+    print("\nStudents:\n")
+    students = Student.query.all()
+    for stu in students:
+        print(f'ID: {stu.id} Name: {stu.username}')
+    
+    student_id = input('\nEnter student ID: ')
+    print("")
+    student = Student.query.filter_by(id=student_id).first()
+    if not student:
+        print('Student not found.')
+        return
+
+    student = Student_Position.query.filter_by(studentID=student_id).all()
+    if student:
+        for s in student:
+            print(s)
+    else:
+        print('No shortlists found for this student.')
+    print("")
+
+app.cli.add_command(student_cli)
 
 '''
 Test Commands

@@ -6,7 +6,7 @@ class Student_Position(db.Model):
     studentID = db.Column(db.Integer, db.ForeignKey('student.id'), primary_key=True)
     positionID = db.Column(db.Integer, db.ForeignKey('internshipposition.id'), primary_key=True)
     status = db.Column(db.String(20), nullable=False, default='Pending')
-    employer_response = db.Column(db.String(20), nullable=True)
+    employer_response = db.Column(db.String(20), nullable=True, default=None)
 
     def __init__(self, studentID, positionID):
         self.studentID = studentID

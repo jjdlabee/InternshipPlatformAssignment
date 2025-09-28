@@ -15,7 +15,9 @@ def create_scenario():
     db.session.commit()
 
     pos1 = emp.createPosition('Software Developer Intern', 'IT', 'Assist in software development tasks')
+    pos2 = emp2.createPosition('Game Designer Intern', 'Design', 'Assist in game design tasks')
     db.session.add(pos1)
+    db.session.add(pos2)
     db.session.commit()
     
     sta = Staff(username='Masahiro Sakurai', password='smashpass', department='Production')
@@ -41,10 +43,12 @@ def create_scenario():
     db.session.commit()
 
     sta.addToShortlist(pos1.id, stu.id)
+    sta2.addToShortlist(pos2.id, stu.id)
     db.session.add(sta)
     db.session.commit()
 
     emp.acceptReject(stu.id, pos1.id, 'Accepted', 'Welcome to the team!')
+    emp2.acceptReject(stu.id, pos2.id, 'Rejected', 'We regret to inform you...')
     db.session.add(emp)
     db.session.commit()
 
