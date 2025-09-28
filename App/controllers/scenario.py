@@ -20,10 +20,10 @@ def create_scenario():
     db.session.add(pos2)
     db.session.commit()
     
-    sta = Staff(username='Masahiro Sakurai', password='smashpass', department='Production')
-    sta2 = Staff(username='Yoshio Sakamoto', password='metropass', department='Production')
-    sta3 = Staff(username='Yoshiaki Koizumi', password='majorapass', department='Production')
-    sta4 = Staff(username='Shigeru Miyamoto', password='mariopass', department='Production')
+    sta = Staff(username='Masahiro Sakurai', password='smashpass', employerID=emp.id)
+    sta2 = Staff(username='Yoshio Sakamoto', password='metropass', employerID=emp.id)
+    sta3 = Staff(username='Yoshiaki Koizumi', password='majorapass', employerID=emp.id)
+    sta4 = Staff(username='Shigeru Miyamoto', password='mariopass', employerID=emp.id)
     db.session.add(sta)
     db.session.add(sta2)
     db.session.add(sta3)
@@ -47,8 +47,8 @@ def create_scenario():
     db.session.add(sta)
     db.session.commit()
 
-    emp.acceptReject(stu.id, pos1.id, 'Accepted', 'Welcome to the team!')
-    emp2.acceptReject(stu.id, pos2.id, 'Rejected', 'We regret to inform you...')
+    emp.acceptReject(stu.id, pos1.id, 'accepted', 'Welcome to the team!')
+    emp2.acceptReject(stu.id, pos2.id, 'rejected', 'We regret to inform you...')
     db.session.add(emp)
     db.session.commit()
 

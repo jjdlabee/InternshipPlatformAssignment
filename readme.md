@@ -1,13 +1,18 @@
 # Recent Changes
 
 - Added commands for:
-    - Listing all staff
-    - Listing all students
-    - Viewing a student's shortlists
-    - Adding a student to a shortlist
+    - Employer:
+        - Creating employer
+        - Creating positions
+        - View positions created by a specified employer
+        - Accept/reject students
+    - Staff
+        - Creating staff
+        - Added error checking to various commands
 
 # Next Tasks:
 
-- Complete commands
-
-- Associate staff with employer since only staff under employer who created position should be able to add students to the position's shortlist
+- Review:
+    - Determine if more commands are necessary
+    - Ensure error checking is done for all processes
+    - Ensure controllers are organised
