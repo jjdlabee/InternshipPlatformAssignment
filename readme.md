@@ -1,3 +1,5 @@
+<div align=justify>
+
 # Recent Changes
 
 - Added documentation for commands
@@ -12,17 +14,19 @@
     - Ensure controllers are organised
 
 # Notes
+• Employers and students can be created without pre-existing data, however Staff can only be created after their Employer has been created. This is because staff are associated with their employer since they can only shortlist students for positions created by their employer, thus staff cannot exist without employer
 
-- Employers and students can be created without pre-existing data, however Staff can only be created after their Employer has been created. This is because staff are associated with their employer since they can only shortlist students for positions created by their employer, thus staff cannot exist without employer
 - The command list table below outlines 'desireable' requirements:
     - These requirements are **already met** by sample data and do not need to be fulfilled
     - As the name implies, these are 'soft' requirements. In other words, the system will be able to function even when these requrements aren't met. These requirements are simply outlined for a desireable outcome (list commands show data, avoiding prompts such as 'Student not shortlisted for any position', etc.) and serve as guidelines if all entries from all tables are deleted so that it can be created from scratch
+
 - This CLI **does not** use click arguments. After entering a command you will be prompted if more information is needed
+</div>
 
 # Command List
 
 | Command  | Model | Prompts | Description | Desireable Requirements |
-| --- | --- | --- | --- | --- |
+| :---: | :---: | :---: | :---: | :---: |
 | flask employer list | employer | None | Lists all employers | At least one employer exists |
 | flask employer create | employer | Username, Password, Company Name | Creates employer | None |
 | flask employer view-positions | employer | UserID |View positions created by a specified employer | At least one employer who has created at least one position already exists |
