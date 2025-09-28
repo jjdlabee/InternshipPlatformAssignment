@@ -1,6 +1,20 @@
 from App.database import db
 from App.models.user import User
 
+class Student_Position(db.Model):
+    __tablename__ = 'student_position'
+    studentID = db.Column(db.Integer, db.ForeignKey('student.id'), primary_key=True)
+    positionID = db.Column(db.Integer, db.ForeignKey('internshipposition.id'), primary_key=True)
+    status = db.Column(db.String(20), nullable=False, default='Pending')
+    employer_response = db.Column(db.String(20), nullable=True)
+
+    def __init__(self, studentID, positionID):
+        self.studentID = studentID
+        self.positionID = positionID
+
+    def __repr__(self):
+        return f"Student_Position[studentID= {self.studentID} -> positionID= {self.positionID}, status= {self.status}, employer_response= {self.employer_response}]"
+
 class Student(User):
 
     __tablename__ = 'student'
@@ -10,7 +24,7 @@ class Student(User):
     department = db.Column(db.String(20), nullable=False)
     degree = db.Column(db.String(20), nullable=False)
     gpa = db.Column(db.Integer, nullable=False)
-    shortlists = db.relationship('Shortlist', secondary='student_shortlist', back_populates='students')
+    shortlists = db.relationship('InternshipPosition', secondary='student_position', back_populates='shortlist')
 
     def __init__(self, username, password, faculty, department, degree, gpa):
         self.username = username

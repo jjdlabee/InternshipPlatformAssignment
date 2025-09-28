@@ -1,9 +1,9 @@
 # Recent Changes
 
-- Solved the bridge table error that resulted from a circular import
+- Removed Shortlist and EmployerResponse Tables as they were unecessary (took abstraction too far)
 
-- Populated the database with more entries
+- Student_Position has replaced Student_Shortlist as the bridge table and can be found in models/student.py
 
 # Next Tasks:
 
-- Remove Shortlist Table as it is unecessary. Only need bridge table between student and position
+- Create required commands

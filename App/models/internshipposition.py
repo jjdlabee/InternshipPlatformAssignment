@@ -9,6 +9,9 @@ class InternshipPosition(db.Model):
     positionTitle = db.Column(db.String(20), nullable=False)
     department = db.Column(db.String(20), nullable=False)
     description = db.Column(db.String(20), nullable=False)
+    shortlist = db.relationship('Student', secondary='student_position', back_populates='shortlists')
+
+    # BACK POP JUST SAYS 'HEY THIS IS THIS IS A RELATIONSHIP THAT IS THE OTHER SIDE OF _'
 
     def __init__(self, employerID, positionTitle, department, description):
         self.employerID = employerID
@@ -17,4 +20,4 @@ class InternshipPosition(db.Model):
         self.description = description
     
     def __repr__(self):
-        return f"InternshipPosition[id= {self.id}, employerID= {self.employerID}, positionTitle= {self.positionTitle}, department= {self.department}, description= {self.description}]"
+        return f"InternshipPosition[id= {self.id}, employerID= {self.employerID}, positionTitle= {self.positionTitle}, department= {self.department}, description= {self.description}, shortlist= {[student.id for student in self.shortlist]}]"

@@ -13,6 +13,7 @@ def create_scenario():
     db.session.add(emp2)
     db.session.add(emp3)
     db.session.commit()
+
     pos1 = emp.createPosition('Software Developer Intern', 'IT', 'Assist in software development tasks')
     db.session.add(pos1)
     db.session.commit()
@@ -27,10 +28,6 @@ def create_scenario():
     db.session.add(sta4)
     db.session.commit()
 
-    sho1 = sta.createShortlist(1)
-    db.session.add(sho1)
-    db.session.commit()
-
     stu = Student(username='Naoto Kuroshima', password='streetpass', faculty='FHE', department='DCFA', degree='BSc Visual Arts', gpa=3.8)
     stu2 = Student(username='Eric Barone', password='stardewpassey', faculty='FST', department='DCIT', degree='BSc Comp Sci', gpa=3.9)
     stu3 = Student(username='Toby Fox', password='underpass', faculty='FST', department='DCIT', degree='BSc Comp Sci & Management', gpa=3.7)
@@ -43,11 +40,11 @@ def create_scenario():
     db.session.add(stu5)
     db.session.commit()
 
-    sta.addToShortlist(sho1.id, stu.id)
+    sta.addToShortlist(pos1.id, stu.id)
     db.session.add(sta)
     db.session.commit()
 
-    emp.createResponse(pos1.id, stu.id, 'Accepted bro!')
+    emp.acceptReject(stu.id, pos1.id, 'Accepted', 'Welcome to the team!')
     db.session.add(emp)
     db.session.commit()
 

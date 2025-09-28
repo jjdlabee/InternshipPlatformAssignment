@@ -1,7 +1,8 @@
 from App.database import db
 from .user import User
 from .internshipposition import InternshipPosition
-from .employerresponse import EmployerResponse
+# from .employerresponse import EmployerResponse
+from .student import Student_Position
 
 class Employer(User):
 
@@ -21,9 +22,12 @@ class Employer(User):
         db.session.add(pos)
         db.session.commit()
         return pos
-
-    def createResponse(self, positionID, studentID, message):
-        res = EmployerResponse(employerID=self.id, positionID=positionID, studentID=studentID, message=message)
-        db.session.add(res)
-        db.session.commit()
-        return res
+    
+    def acceptReject(self, studentID, positionID, status, message=None):
+        sp = Student_Position.query.filter_by(studentID=studentID, positionID=positionID).first()
+        if sp:
+            sp.status = status
+            sp.employer_response = message
+            db.session.commit()
+            return True
+        return False

@@ -10,10 +10,7 @@ from App.models.employer import Employer
 from App.models.staff import Staff
 from App.models.student import Student
 from App.models.internshipposition import InternshipPosition
-from App.models.shortlist import Shortlist
-# from App.models.student_shortlist import Student_Shortlist
-from App.models.shortlist import Student_Shortlist
-from App.models.employerresponse import EmployerResponse
+from App.models.student import Student_Position
 
 
 # This commands file allow you to create convenient CLI commands for testing controllers
@@ -34,9 +31,7 @@ def list():
     staff = Staff.query.all()
     students = Student.query.all()
     positions = InternshipPosition.query.all()
-    shortlists = Shortlist.query.all()
-    student_shortlists = Student_Shortlist.query.all()
-    responses = EmployerResponse.query.all()
+    student_positions = Student_Position.query.all()
     
     print("")
     
@@ -60,18 +55,8 @@ def list():
     
     print("")
 
-    for sho in shortlists:
-        print(sho)
-    
-    print("")
-
-    for ss in student_shortlists:
+    for ss in student_positions:
         print(ss)
-    
-    print("")
-
-    for res in responses:
-        print(res)
     
     print("")
 

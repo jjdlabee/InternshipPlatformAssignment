@@ -1,6 +1,7 @@
 from App.database import db
 from .user import User
-from .shortlist import Shortlist
+# from .shortlist import Shortlist
+from .internshipposition import InternshipPosition
 from .student import Student
 
 from sqlalchemy import select
@@ -24,14 +25,27 @@ class Staff(User):
         db.session.commit()
         return shortlist
 
-    def addToShortlist(self, shortlistID, studentID):
+    # def addToShortlist(self, shortlistID, studentID):
         
-        shortlist = Shortlist.query.filter_by(id=shortlistID).first()
+    #     shortlist = Shortlist.query.filter_by(id=shortlistID).first()
+
+    #     student = Student.query.filter_by(id=studentID).first()
+
+    #     if shortlist != None and student != None:
+    #         shortlist.students.append(student)
+    #         db.session.commit()
+    #         return True
+
+    #     return False
+
+    def addToShortlist(self, positionID, studentID):
+        
+        position = InternshipPosition.query.filter_by(id=positionID).first()
 
         student = Student.query.filter_by(id=studentID).first()
 
-        if shortlist != None and student != None:
-            shortlist.students.append(student)
+        if position != None and student != None:
+            position.shortlist.append(student)
             db.session.commit()
             return True
 
