@@ -6,10 +6,10 @@ from App.models import User
 from App.main import create_app
 from App.controllers import ( create_user, get_all_users_json, get_all_users, initialize )
 
-from App.controllers.employer import create_employer, get_employer_by_id, get_all_employers, view_positions, view_position_shortlist, create_position
+from App.controllers.employer import create_employer, get_employer_by_id, get_all_employers, view_positions, view_position_shortlist
 from App.controllers.staff import get_staff_by_id, get_all_staff, create_staff
 from App.controllers.student import get_student_by_id, get_all_students, create_student
-from App.controllers.internshipposition import get_position_by_id
+from App.controllers.internshipposition import get_position_by_id, create_position
 
 from App.models.employer import Employer
 from App.models.staff import Staff
@@ -32,36 +32,41 @@ def init():
 # List command to list all tables in the database
 @app.cli.command("list", help="Lists all tables in the database")
 def list():
-    employers = Employer.query.all()
-    staff = Staff.query.all()
-    students = Student.query.all()
+    employers = get_all_employers()
+    staff = get_all_staff()
+    students = get_all_students()
     positions = InternshipPosition.query.all()
     student_positions = Student_Position.query.all()
     
     print("")
     
-    for emp in employers:
-        print(emp)
+    if employers:
+        for emp in employers:
+            print(emp)
     
     print("")
     
-    for sta in staff:
-        print(sta)
-    
-    print("")
-
-    for stu in students:
-        print(stu)
+    if staff:
+        for sta in staff:
+            print(sta)
     
     print("")
 
-    for pos in positions:
-        print(pos)
+    if students:
+        for stu in students:
+            print(stu)
     
     print("")
 
-    for ss in student_positions:
-        print(ss)
+    if positions:
+        for pos in positions:
+            print(pos)
+    
+    print("")
+
+    if student_positions:
+        for ss in student_positions:
+            print(ss)
     
     print("")
 
@@ -160,7 +165,7 @@ def view_position_shortlist_command():
     
     position_id = input('\nEnter position ID: ')
     print("")
-    position = get_position_by_id(position_id)#InternshipPosition.query.filter_by(id=position_id).first()
+    position = get_position_by_id(position_id)
     if not position:
         print('Position not found.')
         return
@@ -218,7 +223,7 @@ def create_position_command():
             print('Position creation cancelled.')
             return
 
-    position = create_position(empID, title, depart, descr)#emp.createPosition(title, depart, descr)
+    position = create_position(empID, title, depart, descr)
     print(f'\n"{position.positionTitle}" position created for employer {emp.username}.\n')
 
 @employer_cli.command("accept-reject", help="Accept or reject a student application")
@@ -235,7 +240,7 @@ def accept_reject_command():
         print('Employer not found.')
         return
     
-    # Should close positions after a person is accepted, but for simplicity we will not implement that here
+    # Should close positions after a person is accepted, but for simplicity that will not be implemented
 
     print("\nPositions:\n")
     positions = InternshipPosition.query.filter_by(employerID=empID).all()
@@ -243,7 +248,7 @@ def accept_reject_command():
         print(f'ID: {pos.id} Title: {pos.positionTitle}')
     
     position_id = input('\nEnter position ID: ')
-    position = get_position_by_id(position_id)#InternshipPosition.query.filter_by(id=position_id).first()
+    position = get_position_by_id(position_id)
     if not position:
         print('Position not found.')
         return
@@ -251,7 +256,7 @@ def accept_reject_command():
     print("\nStudents who applied to this position:\n")
     student_positions = Student_Position.query.filter_by(positionID=position_id).all()
     for sp in student_positions:
-        student = get_student_by_id(sp.studentID)#Student.query.filter_by(id=sp.studentID).first()
+        student = get_student_by_id(sp.studentID)
         print(f'ID: {student.id} Name: {student.username} Status: {sp.status}')
     
     student_id = input('\nEnter student ID: ')
@@ -330,7 +335,7 @@ def add_to_shortlist_command():
     
     staff_id = input('\nEnter staff ID: ')
     print("")
-    staff =  get_staff_by_id(staff_id)#Staff.query.filter_by(id=staff_id).first()
+    staff =  get_staff_by_id(staff_id)
     if not staff:
         print('Staff not found.')
         return
@@ -344,7 +349,7 @@ def add_to_shortlist_command():
         print(f'ID: {pos.id} Title: {pos.positionTitle}')
     
     position_id = input('\nEnter position ID: ')
-    position = get_position_by_id(position_id)#InternshipPosition.query.filter_by(id=position_id).first()
+    position = get_position_by_id(position_id)
     if not position:
         print('Position not found.')
         return
@@ -405,7 +410,7 @@ def create_student_command():
         print('\nThis student already exists.')
         return
     else:
-        stu = create_student(username, password, faculty, department, degree, gpa)#Student(username, password, faculty, department, degree, gpa)
+        stu = create_student(username, password, faculty, department, degree, gpa)
         db.session.add(stu)
         db.session.commit()
         print(f'\nStudent {username} created!\n')
@@ -419,7 +424,7 @@ def view_shortlists_command():
     
     student_id = input('\nEnter student ID: ')
     print("")
-    student = get_student_by_id(student_id)#Student.query.filter_by(id=student_id).first()
+    student = get_student_by_id(student_id)
     if not student:
         print('Student not found.')
         return
@@ -434,21 +439,21 @@ def view_shortlists_command():
 
 app.cli.add_command(student_cli)
 
-'''
-Test Commands
-'''
+# '''
+# Test Commands
+# '''
 
-test = AppGroup('test', help='Testing commands') 
+# test = AppGroup('test', help='Testing commands') 
 
-@test.command("user", help="Run User tests")
-@click.argument("type", default="all")
-def user_tests_command(type):
-    if type == "unit":
-        sys.exit(pytest.main(["-k", "UserUnitTests"]))
-    elif type == "int":
-        sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
-    else:
-        sys.exit(pytest.main(["-k", "App"]))
+# @test.command("user", help="Run User tests")
+# @click.argument("type", default="all")
+# def user_tests_command(type):
+#     if type == "unit":
+#         sys.exit(pytest.main(["-k", "UserUnitTests"]))
+#     elif type == "int":
+#         sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
+#     else:
+#         sys.exit(pytest.main(["-k", "App"]))
     
 
-app.cli.add_command(test)
+# app.cli.add_command(test)

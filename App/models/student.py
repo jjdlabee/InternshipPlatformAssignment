@@ -36,9 +36,3 @@ class Student(User):
 
     def __repr__(self):
         return f"Student[id= {self.id}, username= {self.username}, faculty= {self.faculty}, department= {self.department}, degree= {self.degree}, gpa= {self.gpa}]"
-
-    def viewShortlist():
-        pass
-
-    def viewEmployerResponse():
-        pass

@@ -15,14 +15,7 @@ def get_staff_by_id(staffID):
     return sta
 
 def get_all_staff():
-    staffs = Staff.query.all()
-    if not staffs:
+    staff = Staff.query.all()
+    if not staff:
         return None
-    return staffs
-
-# def add_to_shortlist(studentID, positionID):
-#     stmt = db.insert(Student_Position).values(studentID=studentID, positionID=positionID, status='pending')
-
-#     db.session.execute(stmt)
-#     db.session.commit()
-#     return True
+    return staff

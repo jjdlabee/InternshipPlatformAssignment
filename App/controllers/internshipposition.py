@@ -12,3 +12,9 @@ def get_position_by_id(positionID):
     if not pos:
         return None
     return pos
+
+def get_all_positions():
+    posits = InternshipPosition.query.all()
+    if not posits:
+        return None
+    return posits

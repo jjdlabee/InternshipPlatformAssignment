@@ -1,24 +1,10 @@
 <div align=justify>
 
-# Recent Changes
-
-- Added controllers for creating models, getting models by id, detting all models
-
-- Implemented newly defined controllers in wsgi.py
-
-# Next Tasks:
-
-- Define every other controller needed
-
-- Finalise sample data and add documentation for it (in readme) so that it is easy to understand what entries already exist and how they relate to one another
-
-- Review:
-    - Determine if more commands are necessary
-    - Ensure error checking is done for all processes
-    - Ensure controllers are organised
-
 # Notes
-• Employers and students can be created without pre-existing data, however Staff can only be created after their Employer has been created. This is because staff are associated with their employer since they can only shortlist students for positions created by their employer, thus staff cannot exist without employer
+
+- Sample data for each table has been created. Use command 'flask list' to list data for all tables
+
+- Employers and students can be created without pre-existing data, however Staff can only be created after their Employer has been created. This is because staff are associated with their employer since they can only shortlist students for positions created by their employer, thus staff cannot exist without employer
 
 - The command list table below outlines 'desireable' requirements:
     - These requirements are **already met** by sample data and do not need to be fulfilled
@@ -31,6 +17,7 @@
 
 | Command  | Model | Prompts | Description | Desireable Requirements |
 | :---: | :---: | :---: | :---: | :---: |
+| flask list | None | None | Lists all entries for every table | Each table has at least one entry |
 | flask employer list | employer | None | Lists all employers | At least one employer exists |
 | flask employer create | employer | Username, Password, Company Name | Creates employer | None |
 | flask employer view-positions | employer | UserID |View positions created by a specified employer | At least one employer who has created at least one position already exists |

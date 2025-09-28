@@ -16,8 +16,10 @@ def create_scenario():
 
     pos1 = emp.createPosition('Software Developer Intern', 'IT', 'Assist in software development tasks')
     pos2 = emp2.createPosition('Game Designer Intern', 'Design', 'Assist in game design tasks')
+    pos3 = emp.createPosition('AI Programmer Intern', 'IT', 'Work on AI programming for games')
     db.session.add(pos1)
     db.session.add(pos2)
+    db.session.add(pos3)
     db.session.commit()
     
     sta = Staff(username='Masahiro Sakurai', password='smashpass', employerID=emp.id)

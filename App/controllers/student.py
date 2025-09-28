@@ -1,5 +1,5 @@
 from App.models.student import Student
-from App.models.student import Student_Positions
+from App.models.student import Student_Position
 from App.database import db
 
 def create_student(username, password, faculty, department, degree, gpa):
@@ -14,11 +14,17 @@ def get_student_by_id(studentID):
         return None
     return stu
 
-def get_student_position(studentID):
-    stu = Student_Positions.query.filter_by(id=studentID).first()
+def get_student_position_by_id(studentID):
+    stu = Student_Position.query.filter_by(id=studentID).first()
     if not stu:
         return None
     return stu.positions
+
+def get_all_student_positions():
+    stu_pos = Student_Position.query.all()
+    if not stu_pos:
+        return None
+    return stu_pos
 
 def get_all_students():
     students = Student.query.all()

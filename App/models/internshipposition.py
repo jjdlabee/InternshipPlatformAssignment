@@ -11,8 +11,6 @@ class InternshipPosition(db.Model):
     description = db.Column(db.String(20), nullable=False)
     shortlist = db.relationship('Student', secondary='student_position', back_populates='shortlists')
 
-    # BACK POP JUST SAYS 'HEY THIS IS THIS IS A RELATIONSHIP THAT IS THE OTHER SIDE OF _'
-
     def __init__(self, employerID, positionTitle, department, description):
         self.employerID = employerID
         self.positionTitle = positionTitle

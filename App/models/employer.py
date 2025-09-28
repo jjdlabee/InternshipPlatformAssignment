@@ -1,7 +1,6 @@
 from App.database import db
 from .user import User
 from .internshipposition import InternshipPosition
-# from .employerresponse import EmployerResponse
 from .student import Student_Position
 
 class Employer(User):
