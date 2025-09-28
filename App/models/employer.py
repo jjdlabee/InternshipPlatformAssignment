@@ -13,8 +13,8 @@ class Employer(User):
         self.set_password(password)
         self.companyName = companyName
     
-    def __str__(self):
-        return f"Employer[id={self.id}, username={self.username}, companyName={self.companyName}]"
+    def __repr__(self):
+        return f"Employer[id= {self.id}, username= {self.username}, companyName= {self.companyName}]"
 
     def createPosition(self, positionTitle, department, description):
         pos = InternshipPosition(employerID=self.id, positionTitle=positionTitle, department=department, description=description)

@@ -16,5 +16,5 @@ class InternshipPosition(db.Model):
         self.department = department
         self.description = description
     
-    def __str__(self):
-        return f"InternshipPosition[id={self.id}, employerID={self.employerID}, positionTitle={self.positionTitle}, department={self.department}, description={self.description}]"
+    def __repr__(self):
+        return f"InternshipPosition[id= {self.id}, employerID= {self.employerID}, positionTitle= {self.positionTitle}, department= {self.department}, description= {self.description}]"

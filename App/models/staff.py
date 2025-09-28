@@ -15,8 +15,8 @@ class Staff(User):
         self.set_password(password)
         self.department = department
 
-    def __str__(self):
-        return f"Staff[id={self.id}, username={self.username}, department={self.department}]"
+    def __repr__(self):
+        return f"Staff[id= {self.id}, username= {self.username}, department= {self.department}]"
 
     def createShortlist(self, posID):
         shortlist = Shortlist(positionID=posID)

@@ -12,6 +12,7 @@ from App.models.student import Student
 from App.models.internshipposition import InternshipPosition
 from App.models.shortlist import Shortlist
 # from App.models.student_shortlist import Student_Shortlist
+from App.models.shortlist import Student_Shortlist
 from App.models.employerresponse import EmployerResponse
 
 
@@ -34,45 +35,57 @@ def list():
     students = Student.query.all()
     positions = InternshipPosition.query.all()
     shortlists = Shortlist.query.all()
-    # student_shortlists = Student_Shortlist.query.all()
+    student_shortlists = Student_Shortlist.query.all()
     responses = EmployerResponse.query.all()
     
     print("")
     
     for emp in employers:
-        print(emp.__str__())
+        print(emp)
     
     print("")
     
     for sta in staff:
-        print(sta.__str__())
+        print(sta)
     
     print("")
 
     for stu in students:
-        print(stu.__str__())
+        print(stu)
     
     print("")
 
     for pos in positions:
-        print(pos.__str__())
+        print(pos)
     
     print("")
 
     for sho in shortlists:
-        print(sho.__str__())
+        print(sho)
     
-    # print("")
+    print("")
 
-    # for ss in student_shortlists:
-    #     print(ss.__str__())
+    for ss in student_shortlists:
+        print(ss)
     
     print("")
 
     for res in responses:
-        print(res.__str__())
+        print(res)
     
     print("")
+
+# List shortlists by student ID
+# @app.cli.command("list_shortlists", help="Lists all shortlists for a student by student ID")
+# @click.argument("student_id", default=1)
+# def list_shortlists(student_id):
+#     student = Student.query.filter_by(id=student_id).first()
+#     if student:
+#         print(f"Shortlists for Student ID {student_id}:\n")
+#         for shortlist in student.shortlists:
+#             print(shortlist)
+#     else:
+#         print(f"No student found with ID {student_id}")
 
 '''
 User Commands

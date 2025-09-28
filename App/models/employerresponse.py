@@ -16,5 +16,5 @@ class EmployerResponse(db.Model):
         self.studentID = studentID
         self.message = message
     
-    def __str__(self):
-        return f"EmployerResponse[id={self.id}, employerID={self.employerID}, positionID={self.positionID}, studentID={self.studentID}, message={self.message}]"
+    def __repr__(self):
+        return f"EmployerResponse[id= {self.id}, employerID= {self.employerID}, positionID= {self.positionID}, studentID= {self.studentID}, message= {self.message}]"
