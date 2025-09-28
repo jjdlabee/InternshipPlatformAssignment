@@ -2,9 +2,13 @@
 
 # Recent Changes
 
-- Added documentation for commands
+- Added controllers for creating models, getting models by id, detting all models
+
+- Implemented newly defined controllers in wsgi.py
 
 # Next Tasks:
+
+- Define every other controller needed
 
 - Finalise sample data and add documentation for it (in readme) so that it is easy to understand what entries already exist and how they relate to one another
 

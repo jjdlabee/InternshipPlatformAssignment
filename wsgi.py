@@ -6,6 +6,11 @@ from App.models import User
 from App.main import create_app
 from App.controllers import ( create_user, get_all_users_json, get_all_users, initialize )
 
+from App.controllers.employer import create_employer, get_employer_by_id, get_all_employers, view_positions, view_position_shortlist, create_position
+from App.controllers.staff import get_staff_by_id, get_all_staff, create_staff
+from App.controllers.student import get_student_by_id, get_all_students, create_student
+from App.controllers.internshipposition import get_position_by_id
+
 from App.models.employer import Employer
 from App.models.staff import Staff
 from App.models.student import Student
@@ -98,7 +103,7 @@ Employer Commands
 employer_cli = AppGroup('employer', help='Employer object commands')
 @employer_cli.command("list", help="Lists all employers in the database")
 def list_employers_command():
-    employers = Employer.query.all()
+    employers = get_all_employers()
 
     if not employers:
         print("\nNo employers found.\n")
@@ -114,18 +119,18 @@ app.cli.add_command(employer_cli)
 @employer_cli.command("view-positions", help="View positions for a specified employer")
 def view_positions_command():
     print("\nEmployers:\n")
-    employers = Employer.query.all()
+    employers = get_all_employers()
     for emp in employers:
         print(f'ID: {emp.id} Name: {emp.username} Company: {emp.companyName}')
     
     empID = input('\nEnter employer ID: ')
     print("")
-    emp = Employer.query.filter_by(id=empID).first()
+    emp = get_employer_by_id(empID)
     if not emp:
         print('Employer not found.')
         return
 
-    positions = InternshipPosition.query.filter_by(employerID=empID).all()
+    positions =  view_positions(empID)
     if positions:
         for pos in positions:
             print(pos)
@@ -137,13 +142,13 @@ def view_positions_command():
 def view_position_shortlist_command():
 
     print("\nEmployers:\n")
-    employers = Employer.query.all()
+    employers = get_all_employers()
     for emp in employers:
         print(f'ID: {emp.id} Name: {emp.username} Company: {emp.companyName}')
     
     empID = input('\nEnter employer ID: ')
     print("")
-    emp = Employer.query.filter_by(id=empID).first()
+    emp = get_employer_by_id(empID)
     if not emp:
         print('Employer not found.')
         return
@@ -155,12 +160,12 @@ def view_position_shortlist_command():
     
     position_id = input('\nEnter position ID: ')
     print("")
-    position = InternshipPosition.query.filter_by(id=position_id).first()
+    position = get_position_by_id(position_id)#InternshipPosition.query.filter_by(id=position_id).first()
     if not position:
         print('Position not found.')
         return
 
-    student_positions = Student_Position.query.filter_by(positionID=position_id).all()
+    student_positions = view_position_shortlist(position_id)
     if student_positions:
         for sp in student_positions:
             print(sp)
@@ -179,22 +184,19 @@ def create_employer_command():
         print('\nThis employer already exists.')
         return
     else:
-        print('Creating new employer...')
-        emp = Employer(username, password, companyName)
-        db.session.add(emp)
-        db.session.commit()
-        print(f'Employer {username} created!')
+        create_employer(username, password, companyName)
+        print(f'\nEmployer {username} created!')
 
 @employer_cli.command("create-position", help="Create a new internship position")
 def create_position_command():
     print("\nEmployers:\n")
-    employers = Employer.query.all()
+    employers = get_all_employers()
     print("")
     for emp in employers:
         print(f'ID: {emp.id} | Name: {emp.username} | Company: {emp.companyName}')
     
     empID = input('\nEnter employer ID: ')
-    emp = Employer.query.filter_by(id=empID).first()
+    emp = get_employer_by_id(empID)
     if not emp:
         print('Employer not found.')
         return
@@ -216,21 +218,19 @@ def create_position_command():
             print('Position creation cancelled.')
             return
 
-    position = emp.createPosition(title, depart, descr)
-    db.session.add(position)
-    db.session.commit()
-    print(f'"{position.positionTitle}" position created for employer {emp.username}.')
+    position = create_position(empID, title, depart, descr)#emp.createPosition(title, depart, descr)
+    print(f'\n"{position.positionTitle}" position created for employer {emp.username}.\n')
 
 @employer_cli.command("accept-reject", help="Accept or reject a student application")
 def accept_reject_command():
     print("\nEmployers:\n")
-    employers = Employer.query.all()
+    employers = get_all_employers()
     print("")
     for emp in employers:
         print(f'ID: {emp.id} | Name: {emp.username} | Company: {emp.companyName}')
     
     empID = input('\nEnter employer ID: ')
-    emp = Employer.query.filter_by(id=empID).first()
+    emp = get_employer_by_id(empID)
     if not emp:
         print('Employer not found.')
         return
@@ -243,7 +243,7 @@ def accept_reject_command():
         print(f'ID: {pos.id} Title: {pos.positionTitle}')
     
     position_id = input('\nEnter position ID: ')
-    position = InternshipPosition.query.filter_by(id=position_id).first()
+    position = get_position_by_id(position_id)#InternshipPosition.query.filter_by(id=position_id).first()
     if not position:
         print('Position not found.')
         return
@@ -251,7 +251,7 @@ def accept_reject_command():
     print("\nStudents who applied to this position:\n")
     student_positions = Student_Position.query.filter_by(positionID=position_id).all()
     for sp in student_positions:
-        student = Student.query.filter_by(id=sp.studentID).first()
+        student = get_student_by_id(sp.studentID)#Student.query.filter_by(id=sp.studentID).first()
         print(f'ID: {student.id} Name: {student.username} Status: {sp.status}')
     
     student_id = input('\nEnter student ID: ')
@@ -260,7 +260,7 @@ def accept_reject_command():
         print('This student did not apply to this position.')
         return
 
-    status = input('\nEnter new status (accepted/rejected): ').lower()
+    status = input('\nEnter status (accepted/rejected): ').lower()
     while status not in ['accepted', 'rejected']:
         print('Invalid status. Please enter "accepted" or "rejected".')
         status = input('\nEnter new status (accepted/rejected): ').lower()
@@ -282,7 +282,7 @@ staff_cli = AppGroup('staff', help='Staff object commands')
 
 @staff_cli.command("list", help="Lists all staff in the database")
 def list_staff_command():
-    staff = Staff.query.all()
+    staff = get_all_staff()
 
     if not staff:
         print("\nNo staff found.\n")
@@ -296,13 +296,13 @@ def list_staff_command():
 @staff_cli.command("create", help="Creates a staff member")
 def create_staff_command():
     print("\nEmployers:\n")
-    employers = Employer.query.all()
+    employers = get_all_employers()
     print("Select an employer to associate with the new staff member:\n")
     for emp in employers:
         print(f'ID: {emp.id} Name: {emp.username} Company: {emp.companyName}')
     
     empID = input('\nEnter employer ID: ')
-    emp = Employer.query.filter_by(id=empID).first()
+    emp = get_employer_by_id(empID)
     if not emp:
         print('Employer not found.')
         return
@@ -315,7 +315,7 @@ def create_staff_command():
         print('\nThis staff member already exists for this employer.')
         return
 
-    sta = Staff(username, password, emp.id)
+    sta = create_staff(username, password, emp.id)
     db.session.add(sta)
     db.session.commit()
     print(f'Staff member {username} created for employer {emp.username}.')
@@ -323,14 +323,14 @@ def create_staff_command():
 @staff_cli.command("add-to-shortlist", help="Add a student to a position's shortlist")
 def add_to_shortlist_command():
     print("\nStaff:\n")
-    staff = Staff.query.all()
+    staff = get_all_staff()
     print("")
     for sta in staff:
         print(f'ID: {sta.id} Name: {sta.username}')
     
     staff_id = input('\nEnter staff ID: ')
     print("")
-    staff = Staff.query.filter_by(id=staff_id).first()
+    staff =  get_staff_by_id(staff_id)#Staff.query.filter_by(id=staff_id).first()
     if not staff:
         print('Staff not found.')
         return
@@ -344,13 +344,13 @@ def add_to_shortlist_command():
         print(f'ID: {pos.id} Title: {pos.positionTitle}')
     
     position_id = input('\nEnter position ID: ')
-    position = InternshipPosition.query.filter_by(id=position_id).first()
+    position = get_position_by_id(position_id)#InternshipPosition.query.filter_by(id=position_id).first()
     if not position:
         print('Position not found.')
         return
 
     print("\nStudents:\n")
-    students = Student.query.all()
+    students = get_all_students()
     for stu in students:
         print(f'ID: {stu.id} Name: {stu.username}')
     
@@ -380,7 +380,7 @@ student_cli = AppGroup('student', help='Student object commands')
 
 @student_cli.command("list", help="Lists all students in the database")
 def list_students_command():
-    students = Student.query.all()
+    students = get_all_students()
 
     if not students:
         print("\nNo students found.\n")
@@ -391,16 +391,35 @@ def list_students_command():
         print(stu)
     print("")
 
+@student_cli.command("create", help="Creates a student")
+def create_student_command():
+    username = input('\nEnter student username: ')
+    password = input('\nEnter student password: ')
+    faculty = input('\nEnter faculty: ')
+    department = input('\nEnter department: ')
+    degree = input('\nEnter degree: ')
+    gpa = input('\nEnter GPA: ')
+
+    s = Student.query.filter_by(username=username, faculty=faculty, department=department, degree=degree, gpa=gpa).first()
+    if s:
+        print('\nThis student already exists.')
+        return
+    else:
+        stu = create_student(username, password, faculty, department, degree, gpa)#Student(username, password, faculty, department, degree, gpa)
+        db.session.add(stu)
+        db.session.commit()
+        print(f'\nStudent {username} created!\n')
+
 @student_cli.command("view-shortlists", help="View shortlists a specified student was added to")
 def view_shortlists_command():
     print("\nStudents:\n")
-    students = Student.query.all()
+    students = get_all_students()
     for stu in students:
         print(f'ID: {stu.id} Name: {stu.username}')
     
     student_id = input('\nEnter student ID: ')
     print("")
-    student = Student.query.filter_by(id=student_id).first()
+    student = get_student_by_id(student_id)#Student.query.filter_by(id=student_id).first()
     if not student:
         print('Student not found.')
         return
