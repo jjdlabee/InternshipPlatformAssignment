@@ -99,6 +99,11 @@ employer_cli = AppGroup('employer', help='Employer object commands')
 @employer_cli.command("list", help="Lists all employers in the database")
 def list_employers_command():
     employers = Employer.query.all()
+
+    if not employers:
+        print("\nNo employers found.\n")
+        return
+
     print("")
     for emp in employers:
         print(emp)
@@ -278,6 +283,11 @@ staff_cli = AppGroup('staff', help='Staff object commands')
 @staff_cli.command("list", help="Lists all staff in the database")
 def list_staff_command():
     staff = Staff.query.all()
+
+    if not staff:
+        print("\nNo staff found.\n")
+        return
+
     print("")
     for sta in staff:
         print(sta)
@@ -371,6 +381,11 @@ student_cli = AppGroup('student', help='Student object commands')
 @student_cli.command("list", help="Lists all students in the database")
 def list_students_command():
     students = Student.query.all()
+
+    if not students:
+        print("\nNo students found.\n")
+        return
+
     print("")
     for stu in students:
         print(stu)

@@ -12,4 +12,4 @@ from App.models import user, internshipposition, employer, staff
 def initialize():
     db.drop_all()
     db.create_all()
-    create_scenario()
+    # create_scenario()
